@@ -1,0 +1,49 @@
+{
+  "name": "intelliapply",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI-powered job application tracker built with Next.js 15, Claude API, and Prisma",
+  "author": {
+    "name": "Hodo Abdirizak",
+    "email": "hodo.abdirizak@torontomu.ca",
+    "url": "https://github.com/hodoabdirizak"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@auth/prisma-adapter": "^2.8.0",
+    "@prisma/client": "^6.3.0",
+    "next": "^15.1.0",
+    "next-auth": "^5.0.0-beta.25",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "recharts": "^2.15.0",
+    "zod": "^3.24.1",
+    "date-fns": "^4.1.0",
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.0",
+    "postcss": "^8.4.49",
+    "prisma": "^6.3.0",
+    "tailwindcss": "^4.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
