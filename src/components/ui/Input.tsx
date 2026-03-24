@@ -47,7 +47,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 Input.displayName = "Input";
 export default Input;
 
-// Textarea variant
 interface TextareaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;

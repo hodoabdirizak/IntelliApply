@@ -46,13 +46,7 @@ Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
   try {
     return JSON.parse(text);
   } catch {
-    return {
-      score: 0,
-      strengths: [],
-      gaps: ["Could not parse AI response"],
-      suggestions: ["Please try again"],
-      summary: "Analysis failed. Please try again.",
-    };
+    throw new Error("Failed to parse AI response");
   }
 }
 

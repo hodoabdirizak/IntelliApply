@@ -48,16 +48,10 @@ export default function ResumeMatchPage() {
     }
   };
 
-  const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-emerald-400";
-    if (score >= 60) return "text-amber-400";
-    return "text-red-400";
-  };
-
-  const getScoreRingColor = (score: number) => {
-    if (score >= 80) return "stroke-emerald-400";
-    if (score >= 60) return "stroke-amber-400";
-    return "stroke-red-400";
+  const scoreColor = (score: number) => {
+    if (score >= 80) return { text: "text-emerald-400", ring: "stroke-emerald-400" };
+    if (score >= 60) return { text: "text-amber-400", ring: "stroke-amber-400" };
+    return { text: "text-red-400", ring: "stroke-red-400" };
   };
 
   return (
@@ -158,7 +152,7 @@ export default function ResumeMatchPage() {
                     cy="60"
                     r="50"
                     fill="none"
-                    className={getScoreRingColor(result.score)}
+                    className={scoreColor(result.score).ring}
                     strokeWidth="8"
                     strokeLinecap="round"
                     strokeDasharray={`${(result.score / 100) * 314} 314`}
@@ -166,7 +160,7 @@ export default function ResumeMatchPage() {
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span
-                    className={`text-4xl font-bold ${getScoreColor(result.score)}`}
+                    className={`text-4xl font-bold ${scoreColor(result.score).text}`}
                   >
                     {result.score}
                   </span>
