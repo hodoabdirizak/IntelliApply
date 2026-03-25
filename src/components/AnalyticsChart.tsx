@@ -16,17 +16,23 @@ import {
 } from "recharts";
 import Card, { CardHeader, CardTitle } from "@/components/ui/Card";
 
+const tooltipStyle = {
+  backgroundColor: "#1f2937",
+  border: "1px solid #374151",
+  borderRadius: "0.75rem",
+  color: "#f3f4f6",
+  fontSize: "0.875rem",
+};
+
 interface StatusData {
   name: string;
   value: number;
   color: string;
 }
-
 interface WeeklyData {
   week: string;
   count: number;
 }
-
 interface CompanyData {
   company: string;
   count: number;
@@ -57,15 +63,7 @@ export function StatusPieChart({ data }: { data: StatusData[] }) {
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#1f2937",
-                border: "1px solid #374151",
-                borderRadius: "0.75rem",
-                color: "#f3f4f6",
-                fontSize: "0.875rem",
-              }}
-            />
+            <Tooltip contentStyle={tooltipStyle} />
           </PieChart>
         </ResponsiveContainer>
       </div>
@@ -118,15 +116,7 @@ export function WeeklyChart({ data }: { data: WeeklyData[] }) {
               tickLine={false}
               allowDecimals={false}
             />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#1f2937",
-                border: "1px solid #374151",
-                borderRadius: "0.75rem",
-                color: "#f3f4f6",
-                fontSize: "0.875rem",
-              }}
-            />
+            <Tooltip contentStyle={tooltipStyle} />
             <Area
               type="monotone"
               dataKey="count"
@@ -171,15 +161,7 @@ export function TopCompaniesChart({ data }: { data: CompanyData[] }) {
               tickLine={false}
               width={120}
             />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#1f2937",
-                border: "1px solid #374151",
-                borderRadius: "0.75rem",
-                color: "#f3f4f6",
-                fontSize: "0.875rem",
-              }}
-            />
+            <Tooltip contentStyle={tooltipStyle} />
             <Bar dataKey="count" fill="#843dff" radius={[0, 6, 6, 0]} />
           </BarChart>
         </ResponsiveContainer>

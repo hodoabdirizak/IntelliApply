@@ -181,15 +181,6 @@ export default function Sidebar() {
         ))}
       </div>
 
-      <div className="mt-auto p-4">
-        <div className="glass rounded-xl p-4">
-          <p className="text-sm font-medium text-white mb-1">Pro Tip</p>
-          <p className="text-xs text-gray-400">
-            Use AI Resume Match to optimize your resume for each application and
-            increase your response rate.
-          </p>
-        </div>
-      </div>
     </aside>
   );
 }
