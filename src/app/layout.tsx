@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
+import SessionProvider from "@/components/SessionProvider";
 
 export const metadata: Metadata = {
   title: "IntelliApply",
@@ -25,13 +26,15 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen font-sans">
-        <Navbar />
-        <div className="flex">
-          <Sidebar />
-          <main className="flex-1 min-h-[calc(100vh-3.5rem)] px-6 py-8 lg:px-10 lg:py-10">
-            {children}
-          </main>
-        </div>
+        <SessionProvider>
+          <Navbar />
+          <div className="flex">
+            <Sidebar />
+            <main className="flex-1 min-h-[calc(100vh-3.5rem)] px-6 py-8 lg:px-10 lg:py-10">
+              {children}
+            </main>
+          </div>
+        </SessionProvider>
       </body>
     </html>
   );

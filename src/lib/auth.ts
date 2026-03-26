@@ -20,6 +20,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
+    authorized({ auth, request }) {
+      const isLoggedIn = !!auth?.user;
+      const isProtected = ["/dashboard", "/applications", "/analytics", "/ai"].some(
+        (path) => request.nextUrl.pathname.startsWith(path)
+      );
+      if (isProtected && !isLoggedIn) return false;
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -34,6 +42,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   pages: {
-    signIn: "/",
+    signIn: "/signin",
   },
 });

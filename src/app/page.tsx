@@ -1,6 +1,26 @@
+"use client";
+
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session) router.replace("/dashboard");
+  }, [session, router]);
+
+  if (status === "loading" || session) {
+    return (
+      <div className="flex items-center justify-center min-h-[70vh]">
+        <div className="h-8 w-8 border-2 border-accent-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
       <div className="relative mb-8">
@@ -32,10 +52,10 @@ export default function Home() {
 
       <div className="flex flex-col sm:flex-row gap-4">
         <Link
-          href="/dashboard"
+          href="/signin"
           className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-accent-600 hover:bg-accent-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-accent-600/25 hover:shadow-accent-500/30"
         >
-          Go to Dashboard
+          Get Started
           <svg
             className="w-5 h-5"
             fill="none"
@@ -49,12 +69,6 @@ export default function Home() {
               d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
             />
           </svg>
-        </Link>
-        <Link
-          href="/ai/resume-match"
-          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-surface-2 hover:bg-surface-3 text-gray-200 font-medium rounded-md transition-colors border border-border"
-        >
-          Try AI Resume Match
         </Link>
       </div>
 
