@@ -111,12 +111,12 @@ export default function ApplicationsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-8 w-48 bg-gray-800 rounded-lg animate-pulse" />
+        <div className="h-8 w-48 bg-surface-2 rounded-md animate-pulse" />
         <div className="space-y-3">
           {[...Array(5)].map((_, i) => (
             <div
               key={i}
-              className="h-24 bg-gray-800/50 rounded-xl border border-gray-700/50 animate-pulse"
+              className="h-24 bg-surface-1 rounded-lg border border-border animate-pulse"
             />
           ))}
         </div>
@@ -129,7 +129,7 @@ export default function ApplicationsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Applications</h1>
-          <p className="text-gray-400 mt-1">
+          <p className="text-muted mt-1">
             {applications.length} total application
             {applications.length !== 1 ? "s" : ""}
           </p>
@@ -178,9 +178,9 @@ export default function ApplicationsPage() {
 
       {filteredApplications.length === 0 ? (
         <div className="text-center py-20">
-          <div className="inline-flex p-4 rounded-full bg-gray-800/50 mb-4">
+          <div className="inline-flex p-4 rounded-full bg-surface-2 mb-4">
             <svg
-              className="w-10 h-10 text-gray-500"
+              className="w-10 h-10 text-muted"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -198,7 +198,7 @@ export default function ApplicationsPage() {
               ? "No matching applications"
               : "No applications yet"}
           </h3>
-          <p className="text-gray-400 text-sm mb-4">
+          <p className="text-muted text-sm mb-4">
             {search || statusFilter !== "ALL"
               ? "Try adjusting your filters"
               : "Start tracking your job search by adding your first application"}

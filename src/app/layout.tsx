@@ -4,16 +4,9 @@ import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 
 export const metadata: Metadata = {
-  title: "IntelliApply - AI-Powered Job Application Tracker",
+  title: "IntelliApply",
   description:
-    "Track your job applications, analyze resume-job fit with AI, and generate tailored cover letters. Built with Next.js 15, Claude API, and Prisma.",
-  keywords: [
-    "job tracker",
-    "application tracker",
-    "AI resume",
-    "cover letter generator",
-    "career tools",
-  ],
+    "Job application tracker with AI resume matching and cover letter generation.",
 };
 
 export default function RootLayout({
@@ -23,11 +16,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-gray-950 font-sans">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-screen font-sans">
         <Navbar />
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 min-h-[calc(100vh-4rem)] p-6 lg:p-8">
+          <main className="flex-1 min-h-[calc(100vh-3.5rem)] px-6 py-8 lg:px-10 lg:py-10">
             {children}
           </main>
         </div>

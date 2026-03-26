@@ -1,52 +1,48 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-50: #f3f1ff;
-  --color-brand-100: #ebe5ff;
-  --color-brand-200: #d9ceff;
-  --color-brand-300: #bea6ff;
-  --color-brand-400: #9f75ff;
-  --color-brand-500: #843dff;
-  --color-brand-600: #7916ff;
-  --color-brand-700: #6b04fd;
-  --color-brand-800: #5a03d5;
-  --color-brand-900: #4b05ad;
-  --color-brand-950: #2c0076;
+  --color-accent-50: #ecfdf5;
+  --color-accent-100: #d1fae5;
+  --color-accent-200: #a7f3d0;
+  --color-accent-300: #6ee7b7;
+  --color-accent-400: #34d399;
+  --color-accent-500: #10b981;
+  --color-accent-600: #059669;
+  --color-accent-700: #047857;
+  --color-accent-800: #065f46;
+  --color-accent-900: #064e3b;
+  --color-accent-950: #022c22;
+
+  --color-surface-0: #0a0a0f;
+  --color-surface-1: #12121a;
+  --color-surface-2: #1a1a24;
+  --color-surface-3: #22222e;
+
+  --color-border: #2a2a36;
+  --color-border-light: #32323e;
+  --color-muted: #6b6b80;
 }
 
 @layer base {
   body {
-    @apply bg-gray-950 text-gray-100 antialiased;
+    @apply bg-surface-0 text-gray-200 antialiased;
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
   }
 
   ::selection {
-    @apply bg-brand-600/40 text-white;
+    @apply bg-accent-600/30 text-white;
   }
 
   ::-webkit-scrollbar {
-    @apply w-2;
+    width: 6px;
   }
-
   ::-webkit-scrollbar-track {
-    @apply bg-gray-900;
+    @apply bg-surface-0;
   }
-
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-700 rounded-full hover:bg-gray-600;
+    @apply bg-surface-3 rounded-full;
   }
-}
-
-@layer utilities {
-  .gradient-text {
-    @apply bg-gradient-to-r from-brand-400 to-blue-400 bg-clip-text text-transparent;
-  }
-
-  .glass {
-    @apply bg-gray-800/40 backdrop-blur-xl border border-gray-700/50;
-  }
-
-  .glow {
-    box-shadow: 0 0 40px rgba(132, 61, 255, 0.15),
-      0 0 80px rgba(132, 61, 255, 0.05);
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted/40;
   }
 }

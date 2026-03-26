@@ -4,8 +4,8 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] text-center">
       <div className="relative mb-8">
-        <div className="absolute inset-0 blur-3xl bg-brand-600/20 rounded-full scale-150" />
-        <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-brand-600 shadow-2xl shadow-brand-600/30">
+        <div className="absolute inset-0 blur-3xl bg-accent-600/20 rounded-full scale-150" />
+        <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-accent-600 shadow-2xl shadow-accent-600/30">
           <svg
             className="h-10 w-10 text-white"
             fill="none"
@@ -23,9 +23,9 @@ export default function Home() {
       </div>
 
       <h1 className="text-5xl md:text-6xl font-bold mb-4">
-        <span className="gradient-text">IntelliApply</span>
+        <span className="text-accent-400">IntelliApply</span>
       </h1>
-      <p className="text-xl text-gray-400 max-w-2xl mb-8 leading-relaxed">
+      <p className="text-xl text-muted max-w-2xl mb-8 leading-relaxed">
         Your AI-powered job application tracker. Organize applications, analyze
         resume-job fit, and generate tailored cover letters — all in one place.
       </p>
@@ -33,7 +33,7 @@ export default function Home() {
       <div className="flex flex-col sm:flex-row gap-4">
         <Link
           href="/dashboard"
-          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-brand-600/25 hover:shadow-brand-500/30"
+          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-accent-600 hover:bg-accent-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-accent-600/25 hover:shadow-accent-500/30"
         >
           Go to Dashboard
           <svg
@@ -52,7 +52,7 @@ export default function Home() {
         </Link>
         <Link
           href="/ai/resume-match"
-          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-xl transition-all border border-gray-700"
+          className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-surface-2 hover:bg-surface-3 text-gray-200 font-medium rounded-md transition-colors border border-border"
         >
           Try AI Resume Match
         </Link>
@@ -123,15 +123,15 @@ export default function Home() {
         ].map((feature) => (
           <div
             key={feature.title}
-            className="glass rounded-xl p-6 text-left hover:border-brand-500/30 transition-all duration-300"
+            className="bg-surface-1 border border-border rounded-lg p-6 text-left hover:border-accent-500/30 transition-all duration-300"
           >
-            <div className="mb-4 inline-flex p-2.5 rounded-lg bg-brand-600/15 text-brand-400">
+            <div className="mb-4 inline-flex p-2.5 rounded-lg bg-accent-600/15 text-accent-400">
               {feature.icon}
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">
               {feature.title}
             </h3>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-muted leading-relaxed">
               {feature.description}
             </p>
           </div>

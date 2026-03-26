@@ -14,7 +14,7 @@ const STATUS_COLORS: Record<string, string> = {
   Saved: "#6b7280",
   Applied: "#3b82f6",
   Screening: "#06b6d4",
-  Interviewing: "#843dff",
+  Interviewing: "#10b981",
   Offer: "#f59e0b",
   Accepted: "#10b981",
   Rejected: "#ef4444",
@@ -118,12 +118,12 @@ export default function AnalyticsPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-8 w-48 bg-gray-800 rounded-lg animate-pulse" />
+        <div className="h-8 w-48 bg-surface-2 rounded-md animate-pulse" />
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="h-24 bg-gray-800/50 rounded-xl border border-gray-700/50 animate-pulse"
+              className="h-24 bg-surface-1 rounded-lg border border-border animate-pulse"
             />
           ))}
         </div>
@@ -131,7 +131,7 @@ export default function AnalyticsPage() {
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="h-96 bg-gray-800/50 rounded-xl border border-gray-700/50 animate-pulse"
+              className="h-96 bg-surface-1 rounded-lg border border-border animate-pulse"
             />
           ))}
         </div>
@@ -143,7 +143,7 @@ export default function AnalyticsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-white">Analytics</h1>
-        <p className="text-gray-400 mt-1">
+        <p className="text-muted mt-1">
           Insights into your job search performance
         </p>
       </div>
@@ -153,7 +153,7 @@ export default function AnalyticsPage() {
           {
             label: "Total Applied",
             value: summaryStats.total,
-            color: "text-brand-400",
+            color: "text-accent-400",
           },
           {
             label: "Response Rate",
@@ -174,7 +174,7 @@ export default function AnalyticsPage() {
           },
         ].map((stat) => (
           <Card key={stat.label} variant="bordered">
-            <p className="text-xs text-gray-500 mb-1">{stat.label}</p>
+            <p className="text-xs text-muted mb-1">{stat.label}</p>
             <p className={`text-2xl font-bold ${stat.color}`}>{stat.value}</p>
           </Card>
         ))}
@@ -182,9 +182,9 @@ export default function AnalyticsPage() {
 
       {applications.length === 0 ? (
         <Card variant="bordered" className="text-center py-16">
-          <div className="inline-flex p-4 rounded-full bg-gray-800/50 mb-4">
+          <div className="inline-flex p-4 rounded-full bg-surface-2 mb-4">
             <svg
-              className="w-10 h-10 text-gray-500"
+              className="w-10 h-10 text-muted"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -200,7 +200,7 @@ export default function AnalyticsPage() {
           <h3 className="text-lg font-medium text-white mb-1">
             No data to display
           </h3>
-          <p className="text-gray-400 text-sm">
+          <p className="text-muted text-sm">
             Start tracking applications to see analytics here.
           </p>
         </Card>

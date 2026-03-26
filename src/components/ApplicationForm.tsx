@@ -128,7 +128,7 @@ export default function ApplicationForm({
     <form onSubmit={handleSubmit}>
       <Card variant="bordered" className="space-y-6">
         {errors.form && (
-          <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
+          <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
             {errors.form}
           </div>
         )}
@@ -220,9 +220,9 @@ export default function ApplicationForm({
                 name="remote"
                 checked={formData.remote}
                 onChange={handleChange}
-                className="w-5 h-5 rounded border-gray-600 bg-gray-800 text-brand-600 focus:ring-brand-500 focus:ring-offset-0 cursor-pointer"
+                className="w-5 h-5 rounded border-border bg-surface-2 text-accent-600 focus:ring-accent-500 focus:ring-offset-0 cursor-pointer"
               />
-              <span className="text-sm font-medium text-gray-300">
+              <span className="text-sm font-medium text-gray-200">
                 Remote position
               </span>
             </label>

@@ -1,82 +1,43 @@
 "use client";
 
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  AreaChart,
-  Area,
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
+  ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area,
 } from "recharts";
 import Card, { CardHeader, CardTitle } from "@/components/ui/Card";
 
 const tooltipStyle = {
-  backgroundColor: "#1f2937",
-  border: "1px solid #374151",
-  borderRadius: "0.75rem",
-  color: "#f3f4f6",
-  fontSize: "0.875rem",
+  backgroundColor: "#12121a",
+  border: "1px solid #2a2a36",
+  borderRadius: "0.5rem",
+  color: "#e5e5e5",
+  fontSize: "0.8rem",
 };
 
-interface StatusData {
-  name: string;
-  value: number;
-  color: string;
-}
-interface WeeklyData {
-  week: string;
-  count: number;
-}
-interface CompanyData {
-  company: string;
-  count: number;
-}
+interface StatusData { name: string; value: number; color: string }
+interface WeeklyData { week: string; count: number }
+interface CompanyData { company: string; count: number }
 
 export function StatusPieChart({ data }: { data: StatusData[] }) {
   const filtered = data.filter((d) => d.value > 0);
-
   return (
     <Card variant="bordered">
-      <CardHeader>
-        <CardTitle>Application Status</CardTitle>
-      </CardHeader>
-      <div className="h-[300px]">
+      <CardHeader><CardTitle>Status Breakdown</CardTitle></CardHeader>
+      <div className="h-[280px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
-            <Pie
-              data={filtered}
-              cx="50%"
-              cy="50%"
-              innerRadius={60}
-              outerRadius={100}
-              paddingAngle={3}
-              dataKey="value"
-              stroke="none"
-            >
-              {filtered.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
+            <Pie data={filtered} cx="50%" cy="50%" innerRadius={55} outerRadius={90} paddingAngle={3} dataKey="value" stroke="none">
+              {filtered.map((entry, i) => <Cell key={i} fill={entry.color} />)}
             </Pie>
             <Tooltip contentStyle={tooltipStyle} />
           </PieChart>
         </ResponsiveContainer>
       </div>
-      <div className="flex flex-wrap gap-3 mt-2">
+      <div className="flex flex-wrap gap-3 mt-1">
         {filtered.map((item) => (
-          <div key={item.name} className="flex items-center gap-2 text-xs">
-            <div
-              className="w-2.5 h-2.5 rounded-full"
-              style={{ backgroundColor: item.color }}
-            />
-            <span className="text-gray-400">
-              {item.name} ({item.value})
-            </span>
+          <div key={item.name} className="flex items-center gap-1.5 text-[11px]">
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
+            <span className="text-muted">{item.name} ({item.value})</span>
           </div>
         ))}
       </div>
@@ -87,44 +48,21 @@ export function StatusPieChart({ data }: { data: StatusData[] }) {
 export function WeeklyChart({ data }: { data: WeeklyData[] }) {
   return (
     <Card variant="bordered">
-      <CardHeader>
-        <CardTitle>Applications Over Time</CardTitle>
-      </CardHeader>
-      <div className="h-[300px]">
+      <CardHeader><CardTitle>Applications Over Time</CardTitle></CardHeader>
+      <div className="h-[280px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data}>
             <defs>
               <linearGradient id="colorCount" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#843dff" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#843dff" stopOpacity={0} />
+                <stop offset="5%" stopColor="#10b981" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="#1f2937"
-              vertical={false}
-            />
-            <XAxis
-              dataKey="week"
-              tick={{ fill: "#9ca3af", fontSize: 12 }}
-              axisLine={{ stroke: "#374151" }}
-              tickLine={false}
-            />
-            <YAxis
-              tick={{ fill: "#9ca3af", fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-              allowDecimals={false}
-            />
+            <CartesianGrid strokeDasharray="3 3" stroke="#1a1a24" vertical={false} />
+            <XAxis dataKey="week" tick={{ fill: "#6b6b80", fontSize: 11 }} axisLine={{ stroke: "#2a2a36" }} tickLine={false} />
+            <YAxis tick={{ fill: "#6b6b80", fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} />
             <Tooltip contentStyle={tooltipStyle} />
-            <Area
-              type="monotone"
-              dataKey="count"
-              stroke="#843dff"
-              strokeWidth={2}
-              fillOpacity={1}
-              fill="url(#colorCount)"
-            />
+            <Area type="monotone" dataKey="count" stroke="#10b981" strokeWidth={1.5} fillOpacity={1} fill="url(#colorCount)" />
           </AreaChart>
         </ResponsiveContainer>
       </div>
@@ -135,34 +73,15 @@ export function WeeklyChart({ data }: { data: WeeklyData[] }) {
 export function TopCompaniesChart({ data }: { data: CompanyData[] }) {
   return (
     <Card variant="bordered">
-      <CardHeader>
-        <CardTitle>Top Companies Applied To</CardTitle>
-      </CardHeader>
-      <div className="h-[300px]">
+      <CardHeader><CardTitle>Top Companies</CardTitle></CardHeader>
+      <div className="h-[280px]">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} layout="vertical" barSize={20}>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="#1f2937"
-              horizontal={false}
-            />
-            <XAxis
-              type="number"
-              tick={{ fill: "#9ca3af", fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-              allowDecimals={false}
-            />
-            <YAxis
-              dataKey="company"
-              type="category"
-              tick={{ fill: "#9ca3af", fontSize: 12 }}
-              axisLine={false}
-              tickLine={false}
-              width={120}
-            />
+          <BarChart data={data} layout="vertical" barSize={16}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#1a1a24" horizontal={false} />
+            <XAxis type="number" tick={{ fill: "#6b6b80", fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} />
+            <YAxis dataKey="company" type="category" tick={{ fill: "#6b6b80", fontSize: 11 }} axisLine={false} tickLine={false} width={110} />
             <Tooltip contentStyle={tooltipStyle} />
-            <Bar dataKey="count" fill="#843dff" radius={[0, 6, 6, 0]} />
+            <Bar dataKey="count" fill="#10b981" radius={[0, 4, 4, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>

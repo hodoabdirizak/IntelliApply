@@ -15,29 +15,19 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-gray-800/80 bg-gray-950/80 backdrop-blur-xl">
-      <div className="flex h-16 items-center justify-between px-6">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-surface-0/90 backdrop-blur-sm">
+      <div className="flex h-14 items-center justify-between px-6">
         <div className="flex items-center gap-8">
-          <Link href="/dashboard" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 shadow-lg shadow-brand-600/25">
-              <svg
-                className="h-4.5 w-4.5 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
-                />
-              </svg>
+          <Link href="/dashboard" className="flex items-center gap-2">
+            <div className="h-7 w-7 rounded-md bg-accent-500 flex items-center justify-center">
+              <span className="text-xs font-bold text-white">ia</span>
             </div>
-            <span className="text-lg font-bold text-white">IntelliApply</span>
+            <span className="text-sm font-semibold text-gray-100 tracking-tight">
+              IntelliApply
+            </span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-0.5">
             {navItems.map((item) => {
               const isActive =
                 pathname === item.href || pathname.startsWith(item.href + "/");
@@ -46,10 +36,10 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={clsx(
-                    "px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200",
+                    "px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors",
                     isActive
-                      ? "bg-brand-600/15 text-brand-300"
-                      : "text-gray-400 hover:text-white hover:bg-gray-800/50"
+                      ? "bg-surface-2 text-gray-100"
+                      : "text-muted hover:text-gray-300 hover:bg-surface-1"
                   )}
                 >
                   {item.label}
@@ -62,24 +52,14 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <Link
             href="/applications/new"
-            className="flex items-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-brand-600/25"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-accent-600 hover:bg-accent-500 text-white text-[13px] font-medium rounded-md transition-colors"
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-            <span className="hidden sm:inline">New Application</span>
+            <span className="hidden sm:inline">New</span>
           </Link>
-          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-brand-500 to-blue-500 flex items-center justify-center text-sm font-bold text-white">
+          <div className="h-7 w-7 rounded-full bg-surface-3 border border-border flex items-center justify-center text-xs font-medium text-muted">
             H
           </div>
         </div>

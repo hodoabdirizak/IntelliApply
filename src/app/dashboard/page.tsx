@@ -75,16 +75,16 @@ export default function DashboardPage() {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="h-8 w-48 bg-gray-800 rounded-lg animate-pulse" />
+        <div className="h-8 w-48 bg-surface-2 rounded-md animate-pulse" />
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="h-32 bg-gray-800/50 rounded-xl border border-gray-700/50 animate-pulse"
+              className="h-32 bg-surface-1 rounded-lg border border-border animate-pulse"
             />
           ))}
         </div>
-        <div className="h-64 bg-gray-800/50 rounded-xl border border-gray-700/50 animate-pulse" />
+        <div className="h-64 bg-surface-1 rounded-lg border border-border animate-pulse" />
       </div>
     );
   }
@@ -94,7 +94,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-gray-400 mt-1">
+          <p className="text-muted mt-1">
             Overview of your job search progress
           </p>
         </div>
@@ -126,16 +126,16 @@ export default function DashboardPage() {
             <CardTitle>Recent Applications</CardTitle>
             <Link
               href="/applications"
-              className="text-sm text-brand-400 hover:text-brand-300 transition-colors"
+              className="text-sm text-accent-400 hover:text-accent-300 transition-colors"
             >
               View all
             </Link>
           </CardHeader>
           {recentApplications.length === 0 ? (
             <div className="text-center py-12">
-              <div className="inline-flex p-4 rounded-full bg-gray-800/50 mb-4">
+              <div className="inline-flex p-4 rounded-full bg-surface-2 mb-4">
                 <svg
-                  className="w-8 h-8 text-gray-500"
+                  className="w-8 h-8 text-muted"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -148,10 +148,10 @@ export default function DashboardPage() {
                   />
                 </svg>
               </div>
-              <p className="text-gray-400 text-sm">No applications yet</p>
+              <p className="text-muted text-sm">No applications yet</p>
               <Link
                 href="/applications/new"
-                className="text-brand-400 text-sm hover:text-brand-300 mt-1 inline-block"
+                className="text-accent-400 text-sm hover:text-accent-300 mt-1 inline-block"
               >
                 Add your first application
               </Link>
@@ -168,13 +168,13 @@ export default function DashboardPage() {
         <Card variant="bordered">
           <CardHeader>
             <CardTitle>Active Pipeline</CardTitle>
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-muted">
               {activeApplications.length} active
             </span>
           </CardHeader>
           {activeApplications.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-400 text-sm">
+              <p className="text-muted text-sm">
                 No active applications in pipeline
               </p>
             </div>
@@ -195,9 +195,9 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Link
             href="/applications/new"
-            className="flex items-center gap-4 p-4 rounded-xl bg-gray-800/30 border border-gray-700/30 hover:border-brand-500/30 hover:bg-gray-800/50 transition-all group"
+            className="flex items-center gap-4 p-4 rounded-xl bg-surface-1 border border-border hover:border-border-light hover:bg-surface-2 transition-all group"
           >
-            <div className="p-2.5 rounded-lg bg-brand-600/15 text-brand-400 group-hover:bg-brand-600/25 transition-colors">
+            <div className="p-2.5 rounded-lg bg-accent-600/10 text-accent-400 group-hover:bg-accent-600/15 transition-colors">
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -214,7 +214,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm font-medium text-white">Add Application</p>
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted">
                 Track a new job application
               </p>
             </div>
@@ -222,9 +222,9 @@ export default function DashboardPage() {
 
           <Link
             href="/ai/resume-match"
-            className="flex items-center gap-4 p-4 rounded-xl bg-gray-800/30 border border-gray-700/30 hover:border-brand-500/30 hover:bg-gray-800/50 transition-all group"
+            className="flex items-center gap-4 p-4 rounded-xl bg-surface-1 border border-border hover:border-border-light hover:bg-surface-2 transition-all group"
           >
-            <div className="p-2.5 rounded-lg bg-brand-600/15 text-brand-400 group-hover:bg-brand-600/25 transition-colors">
+            <div className="p-2.5 rounded-lg bg-accent-600/10 text-accent-400 group-hover:bg-accent-600/15 transition-colors">
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -241,15 +241,15 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm font-medium text-white">Resume Match</p>
-              <p className="text-xs text-gray-500">Analyze your resume fit</p>
+              <p className="text-xs text-muted">Analyze your resume fit</p>
             </div>
           </Link>
 
           <Link
             href="/ai/cover-letter"
-            className="flex items-center gap-4 p-4 rounded-xl bg-gray-800/30 border border-gray-700/30 hover:border-brand-500/30 hover:bg-gray-800/50 transition-all group"
+            className="flex items-center gap-4 p-4 rounded-xl bg-surface-1 border border-border hover:border-border-light hover:bg-surface-2 transition-all group"
           >
-            <div className="p-2.5 rounded-lg bg-brand-600/15 text-brand-400 group-hover:bg-brand-600/25 transition-colors">
+            <div className="p-2.5 rounded-lg bg-accent-600/10 text-accent-400 group-hover:bg-accent-600/15 transition-colors">
               <svg
                 className="w-5 h-5"
                 fill="none"
@@ -266,7 +266,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <p className="text-sm font-medium text-white">Cover Letter</p>
-              <p className="text-xs text-gray-500">Generate with AI</p>
+              <p className="text-xs text-muted">Generate with AI</p>
             </div>
           </Link>
         </div>

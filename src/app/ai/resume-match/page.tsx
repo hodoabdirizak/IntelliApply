@@ -58,7 +58,7 @@ export default function ResumeMatchPage() {
     <div className="max-w-5xl mx-auto space-y-6">
       <div>
         <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-lg bg-brand-600/15 text-brand-400">
+          <div className="p-2 rounded-lg bg-accent-600/10 text-accent-400">
             <svg
               className="w-6 h-6"
               fill="none"
@@ -75,7 +75,7 @@ export default function ResumeMatchPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">AI Resume Match</h1>
-            <p className="text-gray-400">
+            <p className="text-muted">
               Analyze how well your resume matches a job description
             </p>
           </div>
@@ -91,7 +91,7 @@ export default function ResumeMatchPage() {
             onChange={(e) => setResume(e.target.value)}
             rows={12}
           />
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-muted">
             {resume.length} characters
             {resume.length < 50 && resume.length > 0
               ? " (minimum 50)"
@@ -107,7 +107,7 @@ export default function ResumeMatchPage() {
             onChange={(e) => setJobDescription(e.target.value)}
             rows={12}
           />
-          <p className="text-xs text-gray-500">
+          <p className="text-xs text-muted">
             {jobDescription.length} characters
             {jobDescription.length < 50 && jobDescription.length > 0
               ? " (minimum 50)"
@@ -117,7 +117,7 @@ export default function ResumeMatchPage() {
       </div>
 
       {error && (
-        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
+        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
           {error}
         </div>
       )}
@@ -144,7 +144,7 @@ export default function ResumeMatchPage() {
                     cy="60"
                     r="50"
                     fill="none"
-                    stroke="#1f2937"
+                    stroke="#1a1a24"
                     strokeWidth="8"
                   />
                   <circle
@@ -170,7 +170,7 @@ export default function ResumeMatchPage() {
             <h2 className="text-xl font-semibold text-white mb-2">
               Match Score
             </h2>
-            <p className="text-gray-400 max-w-lg mx-auto">{result.summary}</p>
+            <p className="text-muted max-w-lg mx-auto">{result.summary}</p>
           </Card>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -247,7 +247,7 @@ export default function ResumeMatchPage() {
                 <CardTitle>
                   <span className="flex items-center gap-2">
                     <svg
-                      className="w-5 h-5 text-brand-400"
+                      className="w-5 h-5 text-accent-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -269,7 +269,7 @@ export default function ResumeMatchPage() {
                     key={i}
                     className="flex items-start gap-2 text-sm text-gray-300"
                   >
-                    <span className="text-brand-400 mt-0.5 shrink-0">*</span>
+                    <span className="text-accent-400 mt-0.5 shrink-0">*</span>
                     {s}
                   </li>
                 ))}

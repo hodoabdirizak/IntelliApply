@@ -76,7 +76,7 @@ export default function CoverLetterPage() {
     <div className="max-w-5xl mx-auto space-y-6">
       <div>
         <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-lg bg-brand-600/15 text-brand-400">
+          <div className="p-2 rounded-lg bg-accent-600/10 text-accent-400">
             <svg
               className="w-6 h-6"
               fill="none"
@@ -95,7 +95,7 @@ export default function CoverLetterPage() {
             <h1 className="text-2xl font-bold text-white">
               AI Cover Letter Generator
             </h1>
-            <p className="text-gray-400">
+            <p className="text-muted">
               Generate tailored cover letters powered by Claude AI
             </p>
           </div>
@@ -142,7 +142,7 @@ export default function CoverLetterPage() {
       </div>
 
       {error && (
-        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 text-sm">
+        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
           {error}
         </div>
       )}
@@ -219,7 +219,7 @@ export default function CoverLetterPage() {
               {coverLetter}
             </p>
           </div>
-          <div className="mt-6 flex items-center gap-2 text-xs text-gray-500">
+          <div className="mt-6 flex items-center gap-2 text-xs text-muted">
             <svg
               className="w-3.5 h-3.5"
               fill="none"

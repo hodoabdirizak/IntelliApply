@@ -56,17 +56,17 @@ export default function Modal({
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
       <div
         className={clsx(
-          "relative w-full bg-gray-800 rounded-2xl shadow-2xl border border-gray-700/50",
+          "relative w-full bg-surface-1 rounded-lg shadow-2xl border border-border",
           "animate-in fade-in zoom-in-95 duration-200",
           sizes[size]
         )}
       >
         {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700/50">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-border">
             <h2 className="text-lg font-semibold text-white">{title}</h2>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-gray-700 transition-colors"
+              className="p-1.5 rounded-lg text-muted hover:text-white hover:bg-surface-3 transition-colors"
             >
               <svg
                 className="w-5 h-5"

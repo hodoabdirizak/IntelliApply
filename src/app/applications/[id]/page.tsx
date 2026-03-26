@@ -56,8 +56,8 @@ export default function ApplicationDetailPage() {
   if (isLoading) {
     return (
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="h-8 w-64 bg-gray-800 rounded-lg animate-pulse" />
-        <div className="h-96 bg-gray-800/50 rounded-xl border border-gray-700/50 animate-pulse" />
+        <div className="h-8 w-64 bg-surface-2 rounded-md animate-pulse" />
+        <div className="h-96 bg-surface-1 rounded-lg border border-border animate-pulse" />
       </div>
     );
   }
@@ -68,7 +68,7 @@ export default function ApplicationDetailPage() {
         <h2 className="text-xl font-semibold text-white mb-2">
           Application Not Found
         </h2>
-        <p className="text-gray-400 mb-4">
+        <p className="text-muted mb-4">
           This application may have been deleted.
         </p>
         <Button onClick={() => router.push("/applications")}>
@@ -84,7 +84,7 @@ export default function ApplicationDetailPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-white">Edit Application</h1>
-            <p className="text-gray-400 mt-1">
+            <p className="text-muted mt-1">
               Update details for {application.role} at {application.company}
             </p>
           </div>
@@ -114,7 +114,7 @@ export default function ApplicationDetailPage() {
             </h1>
             <Badge status={application.status} />
           </div>
-          <p className="text-lg text-gray-400">{application.company}</p>
+          <p className="text-lg text-muted">{application.company}</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="secondary" onClick={() => setIsEditing(true)}>
@@ -154,10 +154,10 @@ export default function ApplicationDetailPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card variant="bordered">
-          <h3 className="text-sm font-medium text-gray-400 mb-3">Details</h3>
+          <h3 className="text-sm font-medium text-muted mb-3">Details</h3>
           <dl className="space-y-3">
             <div>
-              <dt className="text-xs text-gray-500">Location</dt>
+              <dt className="text-xs text-muted">Location</dt>
               <dd className="text-sm text-white">
                 {application.location || "Not specified"}
                 {application.remote && (
@@ -166,17 +166,17 @@ export default function ApplicationDetailPage() {
               </dd>
             </div>
             <div>
-              <dt className="text-xs text-gray-500">Salary Range</dt>
+              <dt className="text-xs text-muted">Salary Range</dt>
               <dd className="text-sm text-white">{salaryDisplay}</dd>
             </div>
             <div>
-              <dt className="text-xs text-gray-500">Applied Date</dt>
+              <dt className="text-xs text-muted">Applied Date</dt>
               <dd className="text-sm text-white">
                 {format(new Date(application.appliedAt), "MMM d, yyyy")}
               </dd>
             </div>
             <div>
-              <dt className="text-xs text-gray-500">Last Updated</dt>
+              <dt className="text-xs text-muted">Last Updated</dt>
               <dd className="text-sm text-white">
                 {format(new Date(application.updatedAt), "MMM d, yyyy 'at' h:mm a")}
               </dd>
@@ -185,13 +185,13 @@ export default function ApplicationDetailPage() {
         </Card>
 
         <Card variant="bordered">
-          <h3 className="text-sm font-medium text-gray-400 mb-3">Links</h3>
+          <h3 className="text-sm font-medium text-muted mb-3">Links</h3>
           {application.url ? (
             <a
               href={application.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-brand-400 hover:text-brand-300 transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-accent-400 hover:text-accent-300 transition-colors"
             >
               <svg
                 className="w-4 h-4"
@@ -209,14 +209,14 @@ export default function ApplicationDetailPage() {
               View Job Posting
             </a>
           ) : (
-            <p className="text-sm text-gray-500">No URL provided</p>
+            <p className="text-sm text-muted">No URL provided</p>
           )}
         </Card>
       </div>
 
       {application.notes && (
         <Card variant="bordered">
-          <h3 className="text-sm font-medium text-gray-400 mb-3">Notes</h3>
+          <h3 className="text-sm font-medium text-muted mb-3">Notes</h3>
           <p className="text-sm text-gray-300 whitespace-pre-wrap leading-relaxed">
             {application.notes}
           </p>
