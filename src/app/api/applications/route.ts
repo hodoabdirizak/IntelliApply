@@ -8,8 +8,8 @@ async function getUser() {
   return session?.user?.id ?? null;
 }
 
-function nullIfEmpty(val: string | number | undefined | null) {
-  return val || null;
+function nullIfEmpty<T>(val: T): NonNullable<T> | null {
+  return val ? (val as NonNullable<T>) : null;
 }
 
 export async function GET(request: NextRequest) {
