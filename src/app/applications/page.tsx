@@ -3,13 +3,12 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import ApplicationCard from "@/components/ApplicationCard";
-import Button from "@/components/ui/Button";
 import Select from "@/components/ui/Select";
 import Input from "@/components/ui/Input";
 import type { Application, ApplicationStatus } from "@/types";
 
 const filterOptions = [
-  { value: "ALL", label: "All Statuses" },
+  { value: "ALL", label: "All statuses" },
   { value: "SAVED", label: "Saved" },
   { value: "APPLIED", label: "Applied" },
   { value: "SCREENING", label: "Screening" },
@@ -21,9 +20,9 @@ const filterOptions = [
 ];
 
 const sortOptions = [
-  { value: "newest", label: "Newest First" },
-  { value: "oldest", label: "Oldest First" },
-  { value: "company", label: "Company A-Z" },
+  { value: "newest", label: "Newest first" },
+  { value: "oldest", label: "Oldest first" },
+  { value: "company", label: "Company A–Z" },
   { value: "status", label: "Status" },
 ];
 
@@ -86,7 +85,7 @@ export default function ApplicationsPage() {
       case "company":
         filtered.sort((a, b) => a.company.localeCompare(b.company));
         break;
-      case "status":
+      case "status": {
         const statusOrder: Record<ApplicationStatus, number> = {
           OFFER: 0,
           INTERVIEWING: 1,
@@ -103,6 +102,7 @@ export default function ApplicationsPage() {
             statusOrder[b.status as ApplicationStatus]
         );
         break;
+      }
     }
 
     return filtered;
@@ -110,14 +110,11 @@ export default function ApplicationsPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="h-8 w-48 bg-surface-2 rounded-md animate-pulse" />
+      <div className="mx-auto max-w-6xl px-6 py-12 space-y-6">
+        <div className="h-9 w-48 bg-surface-2 rounded-lg animate-pulse" />
         <div className="space-y-3">
           {[...Array(5)].map((_, i) => (
-            <div
-              key={i}
-              className="h-24 bg-surface-1 rounded-lg border border-border animate-pulse"
-            />
+            <div key={i} className="h-24 rounded-2xl border border-line bg-surface animate-pulse" />
           ))}
         </div>
       </div>
@@ -125,39 +122,32 @@ export default function ApplicationsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="mx-auto max-w-6xl px-6 py-12 space-y-8">
+      {/* Header */}
+      <div className="flex items-end justify-between gap-6 flex-wrap">
         <div>
-          <h1 className="text-2xl font-bold text-white">Applications</h1>
-          <p className="text-muted mt-1">
-            {applications.length} total application
-            {applications.length !== 1 ? "s" : ""}
+          <p className="eyebrow mb-3">All applications</p>
+          <h1 className="display-2 text-ink">Your pipeline</h1>
+          <p className="text-[15px] text-ink-mute mt-2 tabular-nums">
+            {applications.length} total · {filteredApplications.length} shown
           </p>
         </div>
-        <Link href="/applications/new">
-          <Button>
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-            New Application
-          </Button>
+        <Link
+          href="/applications/new"
+          className="inline-flex items-center gap-1.5 rounded-full bg-ink px-5 py-2.5 text-[13.5px] font-medium text-white transition-opacity hover:opacity-90"
+        >
+          <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+          </svg>
+          New application
         </Link>
       </div>
 
+      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1">
           <Input
-            placeholder="Search by company, role, or location..."
+            placeholder="Search by company, role, or location"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -176,36 +166,25 @@ export default function ApplicationsPage() {
         </div>
       </div>
 
+      {/* List */}
       {filteredApplications.length === 0 ? (
-        <div className="text-center py-20">
-          <div className="inline-flex p-4 rounded-full bg-surface-2 mb-4">
-            <svg
-              className="w-10 h-10 text-muted"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              />
-            </svg>
-          </div>
-          <h3 className="text-lg font-medium text-white mb-1">
+        <div className="rounded-3xl border border-dashed border-line bg-surface px-6 py-24 text-center">
+          <h3 className="text-[18px] font-semibold text-ink mb-2 tracking-tight">
             {search || statusFilter !== "ALL"
               ? "No matching applications"
               : "No applications yet"}
           </h3>
-          <p className="text-muted text-sm mb-4">
+          <p className="text-[14px] text-ink-mute mb-6 max-w-sm mx-auto">
             {search || statusFilter !== "ALL"
-              ? "Try adjusting your filters"
-              : "Start tracking your job search by adding your first application"}
+              ? "Try adjusting your search or filters."
+              : "Start tracking your job search by adding your first one."}
           </p>
           {!search && statusFilter === "ALL" && (
-            <Link href="/applications/new">
-              <Button>Add Your First Application</Button>
+            <Link
+              href="/applications/new"
+              className="inline-flex items-center justify-center rounded-full bg-ink px-6 py-2.5 text-[13.5px] font-medium text-white transition-opacity hover:opacity-90"
+            >
+              Add your first application
             </Link>
           )}
         </div>

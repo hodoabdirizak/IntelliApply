@@ -6,19 +6,19 @@ import {
   WeeklyChart,
   TopCompaniesChart,
 } from "@/components/AnalyticsChart";
-import Card, { CardHeader, CardTitle } from "@/components/ui/Card";
 import type { Application } from "@/types";
 import { format, startOfWeek, subWeeks } from "date-fns";
 
+// Refined editorial palette — muted, deliberate.
 const STATUS_COLORS: Record<string, string> = {
-  Saved: "#6b7280",
-  Applied: "#3b82f6",
-  Screening: "#06b6d4",
-  Interviewing: "#10b981",
-  Offer: "#f59e0b",
-  Accepted: "#10b981",
-  Rejected: "#ef4444",
-  Withdrawn: "#f97316",
+  Saved:        "#A1A1A6",
+  Applied:      "#3B82F6",
+  Screening:    "#8B5CF6",
+  Interviewing: "#F59E0B",
+  Offer:        "#10B981",
+  Accepted:     "#047857",
+  Rejected:     "#EF4444",
+  Withdrawn:    "#6E6E73",
 };
 
 export default function AnalyticsPage() {
@@ -45,14 +45,13 @@ export default function AnalyticsPage() {
   const statusBreakdown = useMemo(() => {
     const counts: Record<string, number> = {};
     applications.forEach((app) => {
-      const label =
-        app.status.charAt(0) + app.status.slice(1).toLowerCase();
+      const label = app.status.charAt(0) + app.status.slice(1).toLowerCase();
       counts[label] = (counts[label] || 0) + 1;
     });
     return Object.entries(counts).map(([name, value]) => ({
       name,
       value,
-      color: STATUS_COLORS[name] || "#6b7280",
+      color: STATUS_COLORS[name] || "#A1A1A6",
     }));
   }, [applications]);
 
@@ -83,7 +82,7 @@ export default function AnalyticsPage() {
       .map(([company, count]) => ({ company, count }));
   }, [applications]);
 
-  const summaryStats = useMemo(() => {
+  const summary = useMemo(() => {
     const total = applications.length;
     const withResponse = applications.filter((a) =>
       ["SCREENING", "INTERVIEWING", "OFFER", "ACCEPTED", "REJECTED"].includes(
@@ -100,7 +99,7 @@ export default function AnalyticsPage() {
       avgSalaryApps.length > 0
         ? Math.round(
             avgSalaryApps.reduce(
-              (sum, a) => sum + ((a.salaryMin! + a.salaryMax!) / 2),
+              (sum, a) => sum + (a.salaryMin! + a.salaryMax!) / 2,
               0
             ) / avgSalaryApps.length
           )
@@ -117,21 +116,21 @@ export default function AnalyticsPage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="h-8 w-48 bg-surface-2 rounded-md animate-pulse" />
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="mx-auto max-w-6xl px-6 py-12 space-y-8">
+        <div className="h-9 w-48 bg-surface-2 rounded-lg animate-pulse" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="h-24 bg-surface-1 rounded-lg border border-border animate-pulse"
+              className="h-28 rounded-2xl border border-line bg-surface animate-pulse"
             />
           ))}
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className="h-96 bg-surface-1 rounded-lg border border-border animate-pulse"
+              className="h-96 rounded-2xl border border-line bg-surface animate-pulse"
             />
           ))}
         </div>
@@ -140,72 +139,56 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-6xl px-6 py-12 space-y-10">
+      {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-white">Analytics</h1>
-        <p className="text-muted mt-1">
-          Insights into your job search performance
+        <p className="eyebrow mb-3">Analytics</p>
+        <h1 className="display-2 text-ink">Where you stand.</h1>
+        <p className="text-[15px] text-ink-mute mt-3 max-w-md">
+          A read on response rates, conversion, and where your applications go.
         </p>
       </div>
 
+      {/* Summary stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
+          { label: "Total applied", value: summary.total },
+          { label: "Response rate", value: `${summary.responseRate}%` },
+          { label: "Offer rate", value: `${summary.offerRate}%` },
           {
-            label: "Total Applied",
-            value: summaryStats.total,
-            color: "text-accent-400",
-          },
-          {
-            label: "Response Rate",
-            value: `${summaryStats.responseRate}%`,
-            color: "text-blue-400",
-          },
-          {
-            label: "Offer Rate",
-            value: `${summaryStats.offerRate}%`,
-            color: "text-emerald-400",
-          },
-          {
-            label: "Avg Salary",
-            value: summaryStats.avgSalary
-              ? `$${(summaryStats.avgSalary / 1000).toFixed(0)}k`
-              : "N/A",
-            color: "text-amber-400",
+            label: "Avg. salary",
+            value: summary.avgSalary
+              ? `$${(summary.avgSalary / 1000).toFixed(0)}k`
+              : "—",
           },
         ].map((stat) => (
-          <Card key={stat.label} variant="bordered">
-            <p className="text-xs text-muted mb-1">{stat.label}</p>
-            <p className={`text-2xl font-bold ${stat.color}`}>{stat.value}</p>
-          </Card>
+          <div
+            key={stat.label}
+            className="rounded-2xl border border-line bg-surface px-5 py-5"
+          >
+            <p className="text-[12px] font-medium text-ink-mute mb-2 tracking-tight">
+              {stat.label}
+            </p>
+            <p className="text-[32px] font-semibold text-ink tracking-[-0.03em] tabular-nums leading-none">
+              {stat.value}
+            </p>
+          </div>
         ))}
       </div>
 
+      {/* Charts */}
       {applications.length === 0 ? (
-        <Card variant="bordered" className="text-center py-16">
-          <div className="inline-flex p-4 rounded-full bg-surface-2 mb-4">
-            <svg
-              className="w-10 h-10 text-muted"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
-              />
-            </svg>
-          </div>
-          <h3 className="text-lg font-medium text-white mb-1">
-            No data to display
+        <div className="rounded-3xl border border-dashed border-line bg-surface px-6 py-24 text-center">
+          <h3 className="text-[18px] font-semibold text-ink mb-2 tracking-tight">
+            Nothing to chart yet
           </h3>
-          <p className="text-muted text-sm">
-            Start tracking applications to see analytics here.
+          <p className="text-[14px] text-ink-mute max-w-sm mx-auto">
+            Once you've added a few applications, this is where the trends will
+            live.
           </p>
-        </Card>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <StatusPieChart data={statusBreakdown} />
           <WeeklyChart data={weeklyApplications} />
           <div className="lg:col-span-2">

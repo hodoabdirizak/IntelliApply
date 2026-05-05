@@ -2,25 +2,42 @@ import { clsx } from "clsx";
 import type { ApplicationStatus } from "@/types";
 
 const statusStyles: Record<ApplicationStatus, string> = {
-  SAVED: "bg-gray-500/10 text-gray-400 border-gray-500/20",
-  APPLIED: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  SCREENING: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-  INTERVIEWING: "bg-accent-500/10 text-accent-400 border-accent-500/20",
-  OFFER: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-  ACCEPTED: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
-  REJECTED: "bg-red-500/10 text-red-400 border-red-500/20",
-  WITHDRAWN: "bg-orange-500/10 text-orange-400 border-orange-500/20",
+  SAVED:        "bg-surface-2 text-ink-soft",
+  APPLIED:      "bg-info-50 text-info-700",
+  SCREENING:    "bg-purple-50 text-purple-700",
+  INTERVIEWING: "bg-warn-50 text-warn-700",
+  OFFER:        "bg-success-50 text-success-700",
+  ACCEPTED:     "bg-success-500 text-white",
+  REJECTED:     "bg-danger-50 text-danger-700",
+  WITHDRAWN:    "bg-surface-3 text-ink-mute",
 };
 
 const statusLabels: Record<ApplicationStatus, string> = {
-  SAVED: "Saved", APPLIED: "Applied", SCREENING: "Screening",
-  INTERVIEWING: "Interviewing", OFFER: "Offer", ACCEPTED: "Accepted",
-  REJECTED: "Rejected", WITHDRAWN: "Withdrawn",
+  SAVED: "Saved",
+  APPLIED: "Applied",
+  SCREENING: "Screening",
+  INTERVIEWING: "Interviewing",
+  OFFER: "Offer",
+  ACCEPTED: "Accepted",
+  REJECTED: "Rejected",
+  WITHDRAWN: "Withdrawn",
 };
 
-export default function Badge({ status, className }: { status: ApplicationStatus; className?: string }) {
+export default function Badge({
+  status,
+  className,
+}: {
+  status: ApplicationStatus;
+  className?: string;
+}) {
   return (
-    <span className={clsx("inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium border", statusStyles[status], className)}>
+    <span
+      className={clsx(
+        "inline-flex items-center px-2.5 py-1 rounded-full text-[11.5px] font-medium tracking-tight",
+        statusStyles[status],
+        className
+      )}
+    >
       {statusLabels[status]}
     </span>
   );

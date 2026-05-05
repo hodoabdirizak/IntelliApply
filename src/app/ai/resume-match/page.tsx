@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Button from "@/components/ui/Button";
 import { Textarea } from "@/components/ui/Input";
-import Card, { CardHeader, CardTitle } from "@/components/ui/Card";
 import type { ResumeMatchResult } from "@/types";
 
 export default function ResumeMatchPage() {
@@ -15,9 +14,7 @@ export default function ResumeMatchPage() {
 
   const handleAnalyze = async () => {
     if (resume.length < 50 || jobDescription.length < 50) {
-      setError(
-        "Both resume and job description must be at least 50 characters."
-      );
+      setError("Both fields need at least 50 characters.");
       return;
     }
 
@@ -49,75 +46,58 @@ export default function ResumeMatchPage() {
   };
 
   const scoreColor = (score: number) => {
-    if (score >= 80) return { text: "text-emerald-400", ring: "stroke-emerald-400" };
-    if (score >= 60) return { text: "text-amber-400", ring: "stroke-amber-400" };
-    return { text: "text-red-400", ring: "stroke-red-400" };
+    if (score >= 80) return "#10B981";
+    if (score >= 60) return "#F59E0B";
+    return "#EF4444";
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="mx-auto max-w-5xl px-6 py-12 space-y-10">
+      {/* Header */}
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 rounded-lg bg-accent-600/10 text-accent-400">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={1.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
-              />
-            </svg>
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-white">AI Resume Match</h1>
-            <p className="text-muted">
-              Analyze how well your resume matches a job description
-            </p>
-          </div>
-        </div>
+        <p className="eyebrow mb-3">Resume match</p>
+        <h1 className="display-2 text-ink">How well do you fit?</h1>
+        <p className="text-[15px] text-ink-mute mt-3 max-w-xl">
+          Paste your resume and a job description. We'll score the fit and
+          show you what to lead with — and what's missing.
+        </p>
       </div>
 
+      {/* Inputs */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="space-y-4">
+        <div>
           <Textarea
-            label="Your Resume"
-            placeholder="Paste your resume content here..."
+            label="Your resume"
+            placeholder="Paste resume content…"
             value={resume}
             onChange={(e) => setResume(e.target.value)}
-            rows={12}
+            rows={14}
           />
-          <p className="text-xs text-muted">
+          <p className="text-[11.5px] text-ink-mute mt-2 tabular-nums">
             {resume.length} characters
-            {resume.length < 50 && resume.length > 0
-              ? " (minimum 50)"
-              : ""}
+            {resume.length < 50 && resume.length > 0 ? " — minimum 50" : ""}
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div>
           <Textarea
-            label="Job Description"
-            placeholder="Paste the job description here..."
+            label="Job description"
+            placeholder="Paste the job description…"
             value={jobDescription}
             onChange={(e) => setJobDescription(e.target.value)}
-            rows={12}
+            rows={14}
           />
-          <p className="text-xs text-muted">
+          <p className="text-[11.5px] text-ink-mute mt-2 tabular-nums">
             {jobDescription.length} characters
             {jobDescription.length < 50 && jobDescription.length > 0
-              ? " (minimum 50)"
+              ? " — minimum 50"
               : ""}
           </p>
         </div>
       </div>
 
       {error && (
-        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+        <div className="rounded-2xl bg-danger-50 border border-danger-500/30 px-4 py-3 text-[13.5px] text-danger-700 font-medium">
           {error}
         </div>
       )}
@@ -129,155 +109,114 @@ export default function ResumeMatchPage() {
           isLoading={isLoading}
           disabled={resume.length < 50 || jobDescription.length < 50}
         >
-          {isLoading ? "Analyzing with AI..." : "Analyze Match"}
+          {isLoading ? "Analyzing…" : "Analyze fit"}
         </Button>
       </div>
 
+      {/* Result */}
       {result && (
-        <div className="space-y-6 animate-in fade-in duration-500">
-          <Card variant="elevated" className="text-center">
-            <div className="inline-flex items-center justify-center mb-4">
-              <div className="relative w-32 h-32">
-                <svg className="w-32 h-32 -rotate-90" viewBox="0 0 120 120">
+        <div className="space-y-6 animate-in fade-in duration-300">
+          {/* Score */}
+          <div className="rounded-3xl border border-line bg-surface px-8 py-12 text-center">
+            <div className="inline-flex items-center justify-center mb-6">
+              <div className="relative h-36 w-36">
+                <svg className="h-36 w-36 -rotate-90" viewBox="0 0 120 120">
                   <circle
                     cx="60"
                     cy="60"
-                    r="50"
+                    r="52"
                     fill="none"
-                    stroke="#1a1a24"
+                    stroke="#E8E8E5"
                     strokeWidth="8"
                   />
                   <circle
                     cx="60"
                     cy="60"
-                    r="50"
+                    r="52"
                     fill="none"
-                    className={scoreColor(result.score).ring}
+                    stroke={scoreColor(result.score)}
                     strokeWidth="8"
                     strokeLinecap="round"
-                    strokeDasharray={`${(result.score / 100) * 314} 314`}
+                    strokeDasharray={`${(result.score / 100) * 326.7} 326.7`}
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span
-                    className={`text-4xl font-bold ${scoreColor(result.score).text}`}
+                    className="text-[44px] font-semibold tabular-nums tracking-[-0.04em]"
+                    style={{ color: scoreColor(result.score) }}
                   >
                     {result.score}
                   </span>
                 </div>
               </div>
             </div>
-            <h2 className="text-xl font-semibold text-white mb-2">
-              Match Score
-            </h2>
-            <p className="text-muted max-w-lg mx-auto">{result.summary}</p>
-          </Card>
+            <p className="eyebrow mb-2">Match score</p>
+            <p className="text-[15px] text-ink-soft max-w-xl mx-auto leading-relaxed">
+              {result.summary}
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card variant="bordered">
-              <CardHeader>
-                <CardTitle>
-                  <span className="flex items-center gap-2">
-                    <svg
-                      className="w-5 h-5 text-emerald-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    Strengths
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <ul className="space-y-2">
-                {result.strengths.map((s, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-2 text-sm text-gray-300"
-                  >
-                    <span className="text-emerald-400 mt-0.5 shrink-0">+</span>
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            </Card>
-
-            <Card variant="bordered">
-              <CardHeader>
-                <CardTitle>
-                  <span className="flex items-center gap-2">
-                    <svg
-                      className="w-5 h-5 text-amber-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z"
-                      />
-                    </svg>
-                    Gaps
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <ul className="space-y-2">
-                {result.gaps.map((g, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-2 text-sm text-gray-300"
-                  >
-                    <span className="text-amber-400 mt-0.5 shrink-0">-</span>
-                    {g}
-                  </li>
-                ))}
-              </ul>
-            </Card>
-
-            <Card variant="bordered">
-              <CardHeader>
-                <CardTitle>
-                  <span className="flex items-center gap-2">
-                    <svg
-                      className="w-5 h-5 text-accent-400"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"
-                      />
-                    </svg>
-                    Suggestions
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <ul className="space-y-2">
-                {result.suggestions.map((s, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-2 text-sm text-gray-300"
-                  >
-                    <span className="text-accent-400 mt-0.5 shrink-0">*</span>
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            </Card>
+          {/* Strengths / Gaps / Suggestions */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <ResultColumn
+              title="Strengths"
+              accent="#10B981"
+              items={result.strengths}
+              symbol="✓"
+            />
+            <ResultColumn
+              title="Gaps"
+              accent="#F59E0B"
+              items={result.gaps}
+              symbol="!"
+            />
+            <ResultColumn
+              title="Suggestions"
+              accent="#1D1D1F"
+              items={result.suggestions}
+              symbol="→"
+            />
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function ResultColumn({
+  title,
+  accent,
+  items,
+  symbol,
+}: {
+  title: string;
+  accent: string;
+  items: string[];
+  symbol: string;
+}) {
+  return (
+    <div className="rounded-2xl border border-line bg-surface p-6">
+      <div className="flex items-center gap-2 mb-5">
+        <span
+          className="grid h-5 w-5 place-items-center rounded-full text-[11px] font-bold text-white"
+          style={{ backgroundColor: accent }}
+        >
+          {symbol}
+        </span>
+        <h3 className="text-[15px] font-semibold text-ink tracking-tight">
+          {title}
+        </h3>
+      </div>
+      <ul className="space-y-3">
+        {items.map((s, i) => (
+          <li
+            key={i}
+            className="text-[13.5px] text-ink-soft leading-[1.6]"
+          >
+            {s}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

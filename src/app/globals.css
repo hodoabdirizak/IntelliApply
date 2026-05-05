@@ -1,48 +1,112 @@
 @import "tailwindcss";
 
 @theme {
-  --color-accent-50: #ecfdf5;
-  --color-accent-100: #d1fae5;
-  --color-accent-200: #a7f3d0;
-  --color-accent-300: #6ee7b7;
-  --color-accent-400: #34d399;
-  --color-accent-500: #10b981;
-  --color-accent-600: #059669;
-  --color-accent-700: #047857;
-  --color-accent-800: #065f46;
-  --color-accent-900: #064e3b;
-  --color-accent-950: #022c22;
+  /* ── Surfaces ── */
+  --color-bg:           #FAFAF7;   /* page background, warm off-white */
+  --color-surface:      #FFFFFF;   /* cards, panels */
+  --color-surface-2:    #F5F5F1;   /* recessed areas, hover states */
+  --color-surface-3:    #EEEEE9;   /* deeper recessed */
 
-  --color-surface-0: #0a0a0f;
-  --color-surface-1: #12121a;
-  --color-surface-2: #1a1a24;
-  --color-surface-3: #22222e;
+  /* ── Text ── */
+  --color-ink:          #1D1D1F;   /* primary text — Apple */
+  --color-ink-soft:     #424245;   /* body */
+  --color-ink-mute:     #6E6E73;   /* secondary, helper */
+  --color-ink-faint:    #A1A1A6;   /* tertiary, disabled */
 
-  --color-border: #2a2a36;
-  --color-border-light: #32323e;
-  --color-muted: #6b6b80;
+  /* ── Borders ── */
+  --color-line:         #E8E8E5;   /* hairline default */
+  --color-line-strong:  #D2D2D0;   /* hover, focus rings */
+
+  /* ── Accent (Airbnb rose) ── */
+  --color-accent-50:    #FFF1F4;
+  --color-accent-100:   #FFE0E7;
+  --color-accent-500:   #FF385C;
+  --color-accent-600:   #E31C5F;
+  --color-accent-700:   #C13584;
+
+  /* ── Semantic ── */
+  --color-success-50:   #ECFDF3;
+  --color-success-500:  #10B981;
+  --color-success-700:  #047857;
+
+  --color-warn-50:      #FFFBEB;
+  --color-warn-500:     #F59E0B;
+  --color-warn-700:     #B45309;
+
+  --color-danger-50:    #FEF2F2;
+  --color-danger-500:   #EF4444;
+  --color-danger-700:   #B91C1C;
+
+  --color-info-50:      #EFF6FF;
+  --color-info-500:     #3B82F6;
+  --color-info-700:     #1D4ED8;
+
+  --color-purple-50:    #F5F3FF;
+  --color-purple-500:   #8B5CF6;
+  --color-purple-700:   #6D28D9;
 }
 
 @layer base {
-  body {
-    @apply bg-surface-0 text-gray-200 antialiased;
-    font-family: "Inter", system-ui, -apple-system, sans-serif;
+  html, body {
+    background: var(--color-bg);
+    color: var(--color-ink);
   }
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv11", "ss01", "ss03";
+    letter-spacing: -0.005em;
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.022em;
+    color: var(--color-ink);
+  }
+  h1 { font-weight: 600; }
 
   ::selection {
-    @apply bg-accent-600/30 text-white;
+    background: var(--color-accent-100);
+    color: var(--color-ink);
   }
 
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    @apply bg-surface-0;
-  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    @apply bg-surface-3 rounded-full;
+    background: var(--color-line-strong);
+    border-radius: 999px;
+    border: 2px solid var(--color-bg);
   }
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted/40;
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-ink-faint); }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer utilities {
+  .display-1 {
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+  .display-2 {
+    font-size: clamp(32px, 4vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+  }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--color-ink-mute);
+  }
+  .hairline {
+    border-color: var(--color-line);
   }
 }

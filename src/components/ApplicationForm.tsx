@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/ui/Button";
 import Input, { Textarea } from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
-import Card from "@/components/ui/Card";
 import type { Application } from "@/types";
 
 const statusOptions = [
@@ -125,20 +124,23 @@ export default function ApplicationForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Card variant="bordered" className="space-y-6">
-        {errors.form && (
-          <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
-            {errors.form}
-          </div>
-        )}
+    <form onSubmit={handleSubmit} className="space-y-8">
+      {errors.form && (
+        <div className="rounded-2xl bg-danger-50 border border-danger-500/30 px-4 py-3 text-[13.5px] text-danger-700 font-medium">
+          {errors.form}
+        </div>
+      )}
 
+      <FormSection
+        title="Role"
+        description="Where you applied and what for."
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
             id="company"
             name="company"
-            label="Company *"
-            placeholder="e.g., Google"
+            label="Company"
+            placeholder="e.g. Linear"
             value={formData.company}
             onChange={handleChange}
             error={errors.company}
@@ -146,14 +148,13 @@ export default function ApplicationForm({
           <Input
             id="role"
             name="role"
-            label="Role *"
-            placeholder="e.g., Senior Software Engineer"
+            label="Role"
+            placeholder="e.g. Senior Software Engineer"
             value={formData.role}
             onChange={handleChange}
             error={errors.role}
           />
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Select
             id="status"
@@ -166,31 +167,36 @@ export default function ApplicationForm({
           <Input
             id="url"
             name="url"
-            label="Job Posting URL"
+            label="Job posting URL"
             type="url"
-            placeholder="https://..."
+            placeholder="https://"
             value={formData.url}
             onChange={handleChange}
             error={errors.url}
           />
         </div>
+      </FormSection>
 
+      <FormSection
+        title="Compensation"
+        description="Optional — leave blank if unknown."
+      >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <Input
             id="salaryMin"
             name="salaryMin"
-            label="Salary Min"
+            label="Min"
             type="number"
-            placeholder="80000"
+            placeholder="80,000"
             value={formData.salaryMin}
             onChange={handleChange}
           />
           <Input
             id="salaryMax"
             name="salaryMax"
-            label="Salary Max"
+            label="Max"
             type="number"
-            placeholder="120000"
+            placeholder="120,000"
             value={formData.salaryMax}
             onChange={handleChange}
           />
@@ -203,13 +209,18 @@ export default function ApplicationForm({
             onChange={handleChange}
           />
         </div>
+      </FormSection>
 
+      <FormSection
+        title="Location"
+        description="Where the job is, or whether it's remote."
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <Input
             id="location"
             name="location"
             label="Location"
-            placeholder="e.g., Toronto, ON"
+            placeholder="e.g. Toronto, ON"
             value={formData.location}
             onChange={handleChange}
           />
@@ -220,38 +231,64 @@ export default function ApplicationForm({
                 name="remote"
                 checked={formData.remote}
                 onChange={handleChange}
-                className="w-5 h-5 rounded border-border bg-surface-2 text-accent-600 focus:ring-accent-500 focus:ring-offset-0 cursor-pointer"
+                className="h-[18px] w-[18px] rounded-md border-line bg-surface text-ink focus:ring-ink/20 cursor-pointer accent-ink"
               />
-              <span className="text-sm font-medium text-gray-200">
+              <span className="text-[14px] font-medium text-ink-soft">
                 Remote position
               </span>
             </label>
           </div>
         </div>
+      </FormSection>
 
+      <FormSection
+        title="Notes"
+        description="Anything you'd like to remember — interviewers, prep, follow-ups."
+      >
         <Textarea
           id="notes"
           name="notes"
-          label="Notes"
-          placeholder="Add any notes about this application, interview prep, contacts, etc..."
+          placeholder="Add notes here…"
           value={formData.notes}
           onChange={handleChange}
-          rows={4}
+          rows={5}
         />
+      </FormSection>
 
-        <div className="flex items-center justify-end gap-3 pt-2">
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={() => router.back()}
-          >
-            Cancel
-          </Button>
-          <Button type="submit" isLoading={isLoading}>
-            {mode === "create" ? "Add Application" : "Save Changes"}
-          </Button>
-        </div>
-      </Card>
+      <div className="flex items-center justify-end gap-3 pt-2 border-t border-line pt-6">
+        <Button type="button" variant="ghost" onClick={() => router.back()}>
+          Cancel
+        </Button>
+        <Button type="submit" isLoading={isLoading}>
+          {mode === "create" ? "Add application" : "Save changes"}
+        </Button>
+      </div>
     </form>
+  );
+}
+
+function FormSection({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-6 md:gap-10 pb-8 border-b border-line last:border-0 last:pb-0">
+      <div>
+        <h3 className="text-[15.5px] font-semibold text-ink tracking-tight">
+          {title}
+        </h3>
+        {description && (
+          <p className="text-[13px] text-ink-mute mt-1.5 leading-relaxed">
+            {description}
+          </p>
+        )}
+      </div>
+      <div className="space-y-5">{children}</div>
+    </section>
   );
 }

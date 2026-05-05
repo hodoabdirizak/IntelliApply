@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import DashboardStats from "@/components/DashboardStats";
 import ApplicationCard from "@/components/ApplicationCard";
-import Card, { CardHeader, CardTitle } from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
 import type { Application, DashboardStats as StatsType } from "@/types";
 
 function computeStats(applications: Application[]): StatsType {
@@ -40,6 +39,7 @@ function computeStats(applications: Application[]): StatsType {
 }
 
 export default function DashboardPage() {
+  const { data: session } = useSession();
   const [applications, setApplications] = useState<Application[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -62,6 +62,7 @@ export default function DashboardPage() {
 
   const stats = computeStats(applications);
   const recentApplications = applications
+    .slice()
     .sort(
       (a, b) =>
         new Date(b.appliedAt).getTime() - new Date(a.appliedAt).getTime()
@@ -72,90 +73,60 @@ export default function DashboardPage() {
     ["APPLIED", "SCREENING", "INTERVIEWING"].includes(a.status)
   );
 
+  const firstName = session?.user?.name?.split(" ")[0];
+
   if (isLoading) {
     return (
-      <div className="space-y-6">
-        <div className="h-8 w-48 bg-surface-2 rounded-md animate-pulse" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="mx-auto max-w-6xl px-6 py-12 space-y-8">
+        <div className="h-9 w-72 bg-surface-2 rounded-lg animate-pulse" />
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[...Array(4)].map((_, i) => (
             <div
               key={i}
-              className="h-32 bg-surface-1 rounded-lg border border-border animate-pulse"
+              className="h-28 bg-surface rounded-2xl border border-line animate-pulse"
             />
           ))}
         </div>
-        <div className="h-64 bg-surface-1 rounded-lg border border-border animate-pulse" />
+        <div className="h-72 bg-surface rounded-2xl border border-line animate-pulse" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <p className="text-muted mt-1">
-            Overview of your job search progress
-          </p>
-        </div>
-        <Link href="/applications/new">
-          <Button>
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 4.5v15m7.5-7.5h-15"
-              />
-            </svg>
-            New Application
-          </Button>
-        </Link>
+    <div className="mx-auto max-w-6xl px-6 py-12 space-y-10">
+      {/* Header */}
+      <div>
+        <p className="eyebrow mb-3">Dashboard</p>
+        <h1 className="display-2 text-ink">
+          {firstName ? `Hello, ${firstName}.` : "Welcome back."}
+        </h1>
+        <p className="text-[15.5px] text-ink-mute mt-3">
+          Here's where your job search stands today.
+        </p>
       </div>
 
+      {/* Stats */}
       <DashboardStats stats={stats} />
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        <Card variant="bordered">
-          <CardHeader>
-            <CardTitle>Recent Applications</CardTitle>
+      {/* Two-column: Recent + Active */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
+        <Section
+          title="Recent applications"
+          action={
             <Link
               href="/applications"
-              className="text-sm text-accent-400 hover:text-accent-300 transition-colors"
+              className="text-[13px] font-medium text-ink-soft hover:text-ink"
             >
-              View all
+              View all →
             </Link>
-          </CardHeader>
+          }
+        >
           {recentApplications.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="inline-flex p-4 rounded-full bg-surface-2 mb-4">
-                <svg
-                  className="w-8 h-8 text-muted"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0"
-                  />
-                </svg>
-              </div>
-              <p className="text-muted text-sm">No applications yet</p>
-              <Link
-                href="/applications/new"
-                className="text-accent-400 text-sm hover:text-accent-300 mt-1 inline-block"
-              >
-                Add your first application
-              </Link>
-            </div>
+            <EmptyState
+              title="No applications yet"
+              description="Add your first one to start tracking."
+              cta={{ href: "/applications/new", label: "Add application" }}
+            />
           ) : (
             <div className="space-y-3">
               {recentApplications.map((app) => (
@@ -163,21 +134,21 @@ export default function DashboardPage() {
               ))}
             </div>
           )}
-        </Card>
+        </Section>
 
-        <Card variant="bordered">
-          <CardHeader>
-            <CardTitle>Active Pipeline</CardTitle>
-            <span className="text-sm text-muted">
+        <Section
+          title="Active pipeline"
+          action={
+            <span className="text-[13px] text-ink-mute tabular-nums">
               {activeApplications.length} active
             </span>
-          </CardHeader>
+          }
+        >
           {activeApplications.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted text-sm">
-                No active applications in pipeline
-              </p>
-            </div>
+            <EmptyState
+              title="Nothing in flight"
+              description="Applications you've sent will appear here."
+            />
           ) : (
             <div className="space-y-3">
               {activeApplications.slice(0, 5).map((app) => (
@@ -185,92 +156,116 @@ export default function DashboardPage() {
               ))}
             </div>
           )}
-        </Card>
+        </Section>
       </div>
 
-      <Card variant="bordered">
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-        </CardHeader>
+      {/* Quick actions */}
+      <Section title="Quick actions">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <Link
+          <QuickAction
             href="/applications/new"
-            className="flex items-center gap-4 p-4 rounded-xl bg-surface-1 border border-border hover:border-border-light hover:bg-surface-2 transition-all group"
-          >
-            <div className="p-2.5 rounded-lg bg-accent-600/10 text-accent-400 group-hover:bg-accent-600/15 transition-colors">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-white">Add Application</p>
-              <p className="text-xs text-muted">
-                Track a new job application
-              </p>
-            </div>
-          </Link>
-
-          <Link
+            title="Add application"
+            description="Track a new role"
+            iconPath="M12 4.5v15m7.5-7.5h-15"
+          />
+          <QuickAction
             href="/ai/resume-match"
-            className="flex items-center gap-4 p-4 rounded-xl bg-surface-1 border border-border hover:border-border-light hover:bg-surface-2 transition-all group"
-          >
-            <div className="p-2.5 rounded-lg bg-accent-600/10 text-accent-400 group-hover:bg-accent-600/15 transition-colors">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
-                />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-white">Resume Match</p>
-              <p className="text-xs text-muted">Analyze your resume fit</p>
-            </div>
-          </Link>
-
-          <Link
+            title="Resume match"
+            description="Score your fit"
+            iconPath="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
+          />
+          <QuickAction
             href="/ai/cover-letter"
-            className="flex items-center gap-4 p-4 rounded-xl bg-surface-1 border border-border hover:border-border-light hover:bg-surface-2 transition-all group"
-          >
-            <div className="p-2.5 rounded-lg bg-accent-600/10 text-accent-400 group-hover:bg-accent-600/15 transition-colors">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={1.5}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-                />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-medium text-white">Cover Letter</p>
-              <p className="text-xs text-muted">Generate with AI</p>
-            </div>
-          </Link>
+            title="Cover letter"
+            description="Draft with AI"
+            iconPath="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"
+          />
         </div>
-      </Card>
+      </Section>
+    </div>
+  );
+}
+
+function Section({
+  title,
+  action,
+  children,
+}: {
+  title: string;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <div>
+      <div className="flex items-end justify-between mb-5">
+        <h2 className="text-[17px] font-semibold text-ink tracking-tight">
+          {title}
+        </h2>
+        {action}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+function QuickAction({
+  href,
+  title,
+  description,
+  iconPath,
+}: {
+  href: string;
+  title: string;
+  description: string;
+  iconPath: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="group flex items-center gap-4 rounded-2xl border border-line bg-surface p-5 transition-all hover:border-line-strong hover:bg-surface-2/40"
+    >
+      <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-2 text-ink transition-colors group-hover:bg-ink group-hover:text-white">
+        <svg
+          className="h-[18px] w-[18px]"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={1.7}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d={iconPath} />
+        </svg>
+      </div>
+      <div className="min-w-0">
+        <p className="text-[14.5px] font-semibold text-ink tracking-tight">
+          {title}
+        </p>
+        <p className="text-[12.5px] text-ink-mute mt-0.5">{description}</p>
+      </div>
+    </Link>
+  );
+}
+
+function EmptyState({
+  title,
+  description,
+  cta,
+}: {
+  title: string;
+  description: string;
+  cta?: { href: string; label: string };
+}) {
+  return (
+    <div className="rounded-2xl border border-dashed border-line bg-surface px-6 py-14 text-center">
+      <p className="text-[15px] font-semibold text-ink mb-1">{title}</p>
+      <p className="text-[13px] text-ink-mute mb-5">{description}</p>
+      {cta && (
+        <Link
+          href={cta.href}
+          className="inline-flex items-center gap-1.5 text-[13.5px] font-medium text-ink underline-offset-4 hover:underline"
+        >
+          {cta.label} →
+        </Link>
+      )}
     </div>
   );
 }
