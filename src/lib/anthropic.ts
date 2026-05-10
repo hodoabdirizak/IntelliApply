@@ -4,18 +4,40 @@ const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY!,
 });
 
-export async function analyzeResumeMatch(
-  resume: string,
-  jobDescription: string
-): Promise<{
+const MODEL = "claude-sonnet-4-6";
+
+export interface ResumeMatchResult {
   score: number;
   strengths: string[];
   gaps: string[];
   suggestions: string[];
   summary: string;
-}> {
+}
+
+/**
+ * Strip markdown code fences and surrounding prose, leaving just JSON.
+ * Models sometimes wrap output in ```json ... ``` despite instructions.
+ */
+function extractJSON(text: string): string {
+  const trimmed = text.trim();
+
+  // Try fenced block first (```json ... ``` or ``` ... ```)
+  const fence = trimmed.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/);
+  if (fence) return fence[1].trim();
+
+  // Otherwise grab the first {...} block (handles leading/trailing prose)
+  const obj = trimmed.match(/\{[\s\S]*\}/);
+  if (obj) return obj[0];
+
+  return trimmed;
+}
+
+export async function analyzeResumeMatch(
+  resume: string,
+  jobDescription: string
+): Promise<ResumeMatchResult> {
   const message = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: MODEL,
     max_tokens: 2048,
     messages: [
       {
@@ -28,13 +50,13 @@ ${resume}
 JOB DESCRIPTION:
 ${jobDescription}
 
-Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
+Respond with ONLY a valid JSON object in this exact shape (no markdown, no code fences, no prose before or after):
 {
-  "score": <number 0-100>,
+  "score": <integer 0-100>,
   "strengths": ["<strength 1>", "<strength 2>", "<strength 3>"],
   "gaps": ["<gap 1>", "<gap 2>"],
   "suggestions": ["<actionable suggestion 1>", "<actionable suggestion 2>", "<actionable suggestion 3>"],
-  "summary": "<2-3 sentence summary of the match analysis>"
+  "summary": "<2-3 sentence summary of the match>"
 }`,
       },
     ],
@@ -44,8 +66,9 @@ Respond ONLY with valid JSON in this exact format (no markdown, no code blocks):
     message.content[0].type === "text" ? message.content[0].text : "";
 
   try {
-    return JSON.parse(text);
-  } catch {
+    return JSON.parse(extractJSON(text)) as ResumeMatchResult;
+  } catch (err) {
+    console.error("[analyzeResumeMatch] parse failed. Raw response:", text);
     throw new Error("Failed to parse AI response");
   }
 }
@@ -67,7 +90,7 @@ export async function generateCoverLetter(
   };
 
   const message = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: MODEL,
     max_tokens: 2048,
     messages: [
       {
@@ -87,7 +110,7 @@ TONE: ${toneInstructions[tone]}
 Write a cover letter that:
 1. Opens with a compelling hook (not "I am writing to apply for...")
 2. Connects specific resume experiences to job requirements
-3. Shows knowledge/enthusiasm for the company
+3. Shows knowledge or curiosity about the company
 4. Highlights 2-3 most relevant achievements with quantifiable results
 5. Closes with a confident call to action
 6. Is between 300-400 words
